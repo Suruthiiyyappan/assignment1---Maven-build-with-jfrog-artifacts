@@ -1,0 +1,85 @@
+readiness used to check the healthiness of the pods
+
+~]vi dep.yaml
+kubectl apply -f dep.yaml
+kubectl get pods
+
+vi dep-qa.yaml
+kubectl apply -f dep-qa.yaml
+kubectl get pods
+
+create namespace
+
+vi ns.yaml
+kubectl get ns
+
+vi dev-deploy.yaml
+kubectl apply -f dev-deploy.yaml
+kubectl get pods
+
+-------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+step 1: go to docker hub --->create one repo 
+
+Step 2: create ec2 instance--->login-->install docker---> cd /var/lib/docker -->
+serivce docker start---> cd ~ -->wget jfrog
+
+step 3: vi dockerfile -->in docker file it should be tomcat 8.5.77 version
+
+step4:docker build -t dpthub(his username)/(repo name) .--->we are create a image
+
+step 5:docker run --name cont4 -d -p 8080:8080 dpthub/(repo name)  --->we create container
+
+ :note(u should add a port number in securtiy group-->inbound rules)
+
+docker ps -a
+
+if u have error like already have this port u can change port like 8081 in secure group
+
+step 6:docker commit container id dpthub/repo name
+
+step 7:docker login
+
+step 8: docker push dpthub/repo name:latest
+
+now ur artifact is pushed and please verify your artifact wheather it is run or not using  ip address:8080(or ur port)/dptweb-1.0(artifact name)
+                                                                                           -----------------------------------------------------
+
+
+
+
+In same instance follow the cluster creation kops steps
+
+https://devopsrealtime.com/how-to-install-and-setup-kubernetes-cluster-kops-eksctl-kubeadm/
+
+and go reference screenshot of ns.yaml,deploy.yaml,lb.yaml and pr reposties
+
+https://bitbucket.org/dptrealtime/kubernetes/src/master/manifests/nodePort.yaml
+
+
+vi ns.yaml
+kubectl apply -f ns.yaml
+
+vi deploy.yaml
+kubectl apply -f deploy.yaml
+ 
+vi lb.yaml
+kubectl apply -f lb.yaml
+
+vi notepod.yaml
+kubectl apply -f notepod.yaml
+ 
+ In noteport:31000 
+port:(ur port number)
+target:8080
+
+go and edit any one worknode security group--->inbound rules--->add 31000
+
+
+now in google copy any one workernode ip:31000/dptweb-1.0(artifact name)
+
+                           ----------------------------------------------
